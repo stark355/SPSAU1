@@ -63,29 +63,30 @@ namespace SPSAU1
                         table[j][i].Visible = true;
                         table[j][i].TextAlign = HorizontalAlignment.Center;
                         //label2.Text = table[i][j].Height.ToString() + " " + table[i][j].Width.ToString();
+                        //label2.Text = table.Count.ToString();
 
                         if (i == x - 1)
                         {
                             buttonTable.Add(new Button());
-                            buttonTable[i].Parent = button1.Parent;
-                            buttonTable[i].Size = button1.Size;
-                            buttonTable[i].Text = button1.Text;
-                            buttonTable[i].Location = new Point(table[i][j].Location.X, table[i][j].Location.Y + (textBox1.Height + 2));
-                            buttonTable[i].Visible = true;
+                            buttonTable[j].Parent = button1.Parent;
+                            buttonTable[j].Size = button1.Size;
+                            buttonTable[j].Text = button1.Text;
+                            buttonTable[j].Location = new Point(table[j][i].Location.X, table[j][i].Location.Y + (textBox1.Height + 2));
+                            buttonTable[j].Visible = true;
                             //buttonTable[j].TextAlign = HorizontalAlignment.Center;
-                            buttonTable[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-                            buttonTable[i].Click += new EventHandler(AddRow);
+                            buttonTable[j].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                            buttonTable[j].Click += new EventHandler(AddRow);
                             //buttonTable[j].Text = j.ToString();
                             //label3.Text = buttonTable[j].Height.ToString() + " " + buttonTable[j].Width.ToString();
-                            buttonTable[i].Tag = new Point(j, i);
+                            buttonTable[j].Tag = new Point (i, j);
                         }
 
-                        if (j == 0 && i == x - 1)
+                        if (i == 0 && j == y - 1)
                         {
                             button2.Location = new Point(table[j][i].Location.X + (textBox1.Width + 2), table[j][i].Location.Y - 1);
                             button2.Visible = true;
                             button2.Click += new EventHandler(AddColumn);
-                            button2.Tag = new Point(0, x);
+                            button2.Tag = new Point(i, j);
                         }
                     }
                 }
@@ -112,16 +113,51 @@ namespace SPSAU1
         private void AddRow(object sender, EventArgs e)
         {
             Button temp = (Button)sender;
+            TextBox extraTextBox = new TextBox();
             Point coord = (Point)temp.Tag;
 
-            table[coord.Y].Add(new TextBox());
-            //table
+            //table[coord.Y].Add(new TextBox());
 
-            MessageBox.Show(temp.Tag.ToString());            
+            table[coord.Y].Add(extraTextBox);
+            extraTextBox.Parent = textBox1.Parent;
+            extraTextBox.Size = textBox1.Size;
+            //extraTexBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * coord.Y, textBox1.Location.Y + (textBox1.Height + 2) * (coord.X + 1));
+            extraTextBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * coord.Y, textBox1.Location.Y + (textBox1.Height + 2) * (table[coord.Y].Count - 1));
+            extraTextBox.Visible = true;
+            extraTextBox.TextAlign = HorizontalAlignment.Center;
+            //temp.Location = new Point(table[coord.Y][coord.X].Location.X,extraTextBox.Location.Y + (textBox1.Height + 2));
+            temp.Location = new Point(table[coord.Y][table[coord.Y].Count - 1].Location.X, extraTextBox.Location.Y + (textBox1.Height + 2));
+            //temp.Visible = false;
+
+            //MessageBox.Show(temp.Tag.ToString());            
         }
 
         private void AddColumn(object sender, EventArgs e)
         {
+            Button temp = (Button)sender;
+            Point coord = (Point)temp.Tag;
+            TextBox extraTextBox = new TextBox();
+            Button adderRow = new Button();
+
+
+            table.Add(new List<TextBox>());
+            table[table.Count - 1].Add(extraTextBox);
+            extraTextBox.Parent = textBox1.Parent;
+            extraTextBox.Size = textBox1.Size;
+            extraTextBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * (table.Count - 1), textBox1.Location.Y);
+            extraTextBox.Visible = true;
+            extraTextBox.TextAlign = HorizontalAlignment.Center;
+            //temp.Visible = false;
+            temp.Location = new Point(table[table.Count - 1][0].Location.X + (button2.Width + 2), button2.Location.Y);
+            //button
+            buttonTable.Add(adderRow);
+            adderRow.Click += new EventHandler(AddRow);
+            adderRow.Parent = button1.Parent;
+            adderRow.Size = button1.Size;
+            adderRow.Text = button1.Text;
+            adderRow.Location = new Point(table[table.Count - 2][0].Location.X + (textBox1.Width + 2), textBox1.Location.Y + (textBox1.Height + 2));
+            adderRow.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            adderRow.Tag = new Point(1, table.Count - 1);
 
         }
     }
