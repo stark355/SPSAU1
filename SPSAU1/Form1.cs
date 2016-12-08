@@ -49,43 +49,43 @@ namespace SPSAU1
             buttonTable = new List<Button>();
             try
             {
-                for (int i = 0; i < x; i++)
+                for (int j = 0; j < y; j++)
                 {
                     table.Add(new List<TextBox>());
 
-                    for (int j = 0; j < y; j++)
+                    for (int i = 0; i < x; i++)
                     {
-                        //just git testing
-                        table[i].Add(new TextBox());
-                        table[i][j].Parent = textBox1.Parent;
-                        table[i][j].Size = textBox1.Size;
-                        table[i][j].Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * j, textBox1.Location.Y + (textBox1.Height + 2) * i);
-                        table[i][j].Visible = true;
-                        table[i][j].TextAlign = HorizontalAlignment.Center;
+                        
+                        table[j].Add(new TextBox());
+                        table[j][i].Parent = textBox1.Parent;
+                        table[j][i].Size = textBox1.Size;
+                        table[j][i].Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * j, textBox1.Location.Y + (textBox1.Height + 2) * i);
+                        table[j][i].Visible = true;
+                        table[j][i].TextAlign = HorizontalAlignment.Center;
                         //label2.Text = table[i][j].Height.ToString() + " " + table[i][j].Width.ToString();
 
                         if (i == x - 1)
                         {
                             buttonTable.Add(new Button());
-                            buttonTable[j].Parent = button1.Parent;
-                            buttonTable[j].Size = button1.Size;
-                            buttonTable[j].Text = button1.Text;
-                            buttonTable[j].Location = new Point(table[i][j].Location.X, table[i][j].Location.Y + (textBox1.Height + 2));
-                            buttonTable[j].Visible = true;
+                            buttonTable[i].Parent = button1.Parent;
+                            buttonTable[i].Size = button1.Size;
+                            buttonTable[i].Text = button1.Text;
+                            buttonTable[i].Location = new Point(table[i][j].Location.X, table[i][j].Location.Y + (textBox1.Height + 2));
+                            buttonTable[i].Visible = true;
                             //buttonTable[j].TextAlign = HorizontalAlignment.Center;
-                            buttonTable[j].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-                            buttonTable[j].Click += new EventHandler(AddRow);
+                            buttonTable[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                            buttonTable[i].Click += new EventHandler(AddRow);
                             //buttonTable[j].Text = j.ToString();
                             //label3.Text = buttonTable[j].Height.ToString() + " " + buttonTable[j].Width.ToString();
-                            buttonTable[j].Tag = new Point(i, j);
+                            buttonTable[i].Tag = new Point(j, i);
                         }
 
-                        if (i == 0 && j == y - 1)
+                        if (j == 0 && i == x - 1)
                         {
-                            button2.Location = new Point(table[i][j].Location.X + (textBox1.Width + 2), table[i][j].Location.Y - 1);
+                            button2.Location = new Point(table[j][i].Location.X + (textBox1.Width + 2), table[j][i].Location.Y - 1);
                             button2.Visible = true;
                             button2.Click += new EventHandler(AddColumn);
-                            button2.Tag = new Point(0, y);
+                            button2.Tag = new Point(0, x);
                         }
                     }
                 }
