@@ -55,6 +55,7 @@ namespace SPSAU1
 
                     for (int j = 0; j < y; j++)
                     {
+                        //just git testing
                         table[i].Add(new TextBox());
                         table[i][j].Parent = textBox1.Parent;
                         table[i][j].Size = textBox1.Size;
