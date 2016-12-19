@@ -14,6 +14,7 @@ namespace SPSAU1
     {
         public List<List<TextBox>> table;
         List<Button> buttonTable;
+        List<TextBox> tableHeader;
 
 
         public Form1()
@@ -47,6 +48,7 @@ namespace SPSAU1
         {
             table = new List<List<TextBox>>();
             buttonTable = new List<Button>();
+            tableHeader = new List<TextBox>();
             try
             {
                 for (int j = 0; j < y; j++)
@@ -79,6 +81,7 @@ namespace SPSAU1
                             //buttonTable[j].Text = j.ToString();
                             //label3.Text = buttonTable[j].Height.ToString() + " " + buttonTable[j].Width.ToString();
                             buttonTable[j].Tag = new Point (i, j);
+                            buttonTable[j].TabIndex = 0;
                         }
 
                         if (i == 0 && j == y - 1)
@@ -87,6 +90,7 @@ namespace SPSAU1
                             button2.Visible = true;
                             button2.Click += new EventHandler(AddColumn);
                             button2.Tag = new Point(i, j);
+                            button2.TabIndex = 0;
                         }
                     }
                 }
@@ -104,6 +108,20 @@ namespace SPSAU1
                     label3.Text = buttonTable[j].Height.ToString() + " " + buttonTable[j].Width.ToString();
                 }
                 */
+
+                //header
+                for (int j = 0; j < y; j++)
+                {
+                    tableHeader.Add(new TextBox());
+                    tableHeader[j].Parent = textBox1.Parent;
+                    tableHeader[j].Size = textBox1.Size;
+                    tableHeader[j].Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * j, textBox1.Location.Y - (textBox1.Height + 2));
+                    tableHeader[j].Visible = true;
+                    tableHeader[j].TextAlign = HorizontalAlignment.Center;
+                    tableHeader[j].BackColor = SystemColors.Info;
+                    tableHeader[j].TabIndex = 0;
+                }
+
             }
             catch (Exception)
             {
@@ -138,6 +156,7 @@ namespace SPSAU1
             Point coord = (Point)temp.Tag;
             TextBox extraTextBox = new TextBox();
             Button adderRow = new Button();
+            TextBox headerBox = new TextBox();
 
 
             table.Add(new List<TextBox>());
@@ -149,6 +168,15 @@ namespace SPSAU1
             extraTextBox.TextAlign = HorizontalAlignment.Center;
             //temp.Visible = false;
             temp.Location = new Point(table[table.Count - 1][0].Location.X + (button2.Width + 2), button2.Location.Y);
+            //tabIndex
+            /*
+            for (int j = 0; j < table.Count; j++)
+            {
+                for (int i = 0; i < table[j].Count; i++)
+                {
+                }
+            }*/
+
             //button
             buttonTable.Add(adderRow);
             adderRow.Click += new EventHandler(AddRow);
@@ -158,6 +186,16 @@ namespace SPSAU1
             adderRow.Location = new Point(table[table.Count - 2][0].Location.X + (textBox1.Width + 2), textBox1.Location.Y + (textBox1.Height + 2));
             adderRow.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             adderRow.Tag = new Point(1, table.Count - 1);
+            adderRow.TabIndex = 0;
+            //header
+            tableHeader.Add(headerBox);
+            headerBox.Parent = textBox1.Parent;
+            headerBox.Size = textBox1.Size;
+            headerBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * (tableHeader.Count - 1), textBox1.Location.Y - (textBox1.Height + 2));
+            headerBox.Visible = true;
+            headerBox.TextAlign = HorizontalAlignment.Center;
+            headerBox.BackColor = SystemColors.Info;
+            headerBox.TabIndex = 0;
 
         }
 
@@ -169,7 +207,7 @@ namespace SPSAU1
             int[] currentIndexes = new int[table.Count];
             int currentBorder = table.Count - 1;
             string outText;
-            int iter = 0;
+            //int iter = 0;
             for (int i = 0; i < maxIndexes.Length; i++)
             {
                 maxIndexes[i] = table[i].Count - 1;
@@ -177,7 +215,7 @@ namespace SPSAU1
             }
 
 
-            //---wrong output
+            //output
             try
             {
                 while (true)
