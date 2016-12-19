@@ -133,6 +133,10 @@ namespace SPSAU1
             Button temp = (Button)sender;
             TextBox extraTextBox = new TextBox();
             Point coord = (Point)temp.Tag;
+            int textboxWidth = textBox1.Width;
+            int textboxHeight = textBox1.Height;
+            int textboxX = table[coord.Y][table[coord.Y].Count - 1].Location.X;
+            int textboxY = table[coord.Y][table[coord.Y].Count - 1].Location.Y;
 
             //table[coord.Y].Add(new TextBox());
 
@@ -140,7 +144,8 @@ namespace SPSAU1
             extraTextBox.Parent = textBox1.Parent;
             extraTextBox.Size = textBox1.Size;
             //extraTexBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * coord.Y, textBox1.Location.Y + (textBox1.Height + 2) * (coord.X + 1));
-            extraTextBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * coord.Y, textBox1.Location.Y + (textBox1.Height + 2) * (table[coord.Y].Count - 1));
+            //extraTextBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * coord.Y, textBox1.Location.Y + (textBox1.Height + 2) * (table[coord.Y].Count - 1));
+            extraTextBox.Location = new Point(textboxX, textboxY + textboxHeight + 2);
             extraTextBox.Visible = true;
             extraTextBox.TextAlign = HorizontalAlignment.Center;
             //temp.Location = new Point(table[coord.Y][coord.X].Location.X,extraTextBox.Location.Y + (textBox1.Height + 2));
@@ -157,13 +162,18 @@ namespace SPSAU1
             TextBox extraTextBox = new TextBox();
             Button adderRow = new Button();
             TextBox headerBox = new TextBox();
+            int textboxWidth = textBox1.Width;
+            int textboxHeight = textBox1.Height;
+            int textboxX = table[table.Count - 1][0].Location.X;
+            int textboxY = table[table.Count - 1][0].Location.Y;
 
 
             table.Add(new List<TextBox>());
             table[table.Count - 1].Add(extraTextBox);
             extraTextBox.Parent = textBox1.Parent;
             extraTextBox.Size = textBox1.Size;
-            extraTextBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * (table.Count - 1), textBox1.Location.Y);
+            //extraTextBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * (table.Count - 1), textBox1.Location.Y);
+            extraTextBox.Location = new Point(textboxX + (textBox1.Width + 2), textboxY);
             extraTextBox.Visible = true;
             extraTextBox.TextAlign = HorizontalAlignment.Center;
             //temp.Visible = false;
@@ -178,7 +188,6 @@ namespace SPSAU1
             }*/
 
             //button
-            buttonTable.Add(adderRow);
             adderRow.Click += new EventHandler(AddRow);
             adderRow.Parent = button1.Parent;
             adderRow.Size = button1.Size;
@@ -188,15 +197,18 @@ namespace SPSAU1
             adderRow.Tag = new Point(1, table.Count - 1);
             adderRow.TabIndex = 0;
             //header
-            tableHeader.Add(headerBox);
+            textboxX = table[table.Count - 2][0].Location.X;
+            textboxY = table[table.Count - 2][0].Location.Y;
             headerBox.Parent = textBox1.Parent;
             headerBox.Size = textBox1.Size;
-            headerBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * (tableHeader.Count - 1), textBox1.Location.Y - (textBox1.Height + 2));
+            //headerBox.Location = new Point(textBox1.Location.X + (textBox1.Width + 2) * (tableHeader.Count - 1), textBox1.Location.Y - (textBox1.Height + 2));
+            headerBox.Location = new Point(textboxX + (textboxWidth + 2), textboxY - (textboxHeight + 2));
             headerBox.Visible = true;
             headerBox.TextAlign = HorizontalAlignment.Center;
             headerBox.BackColor = SystemColors.Info;
             headerBox.TabIndex = 0;
-
+            buttonTable.Add(adderRow);
+            tableHeader.Add(headerBox);
         }
 
         private void Evaluator()
@@ -206,7 +218,7 @@ namespace SPSAU1
             int[] maxIndexes = new int[table.Count];
             int[] currentIndexes = new int[table.Count];
             int currentBorder = table.Count - 1;
-            string outText;
+            string outText ="";
             //int iter = 0;
             for (int i = 0; i < maxIndexes.Length; i++)
             {
@@ -214,23 +226,28 @@ namespace SPSAU1
                 //label2.Text += maxIndexes[i].ToString();
             }
 
-
             //output
             try
             {
                 while (true)
                 //while (currentIndexes[0] != maxIndexes[0])
                 {
+                    outText = "";
                     for (int i = 0; i < table.Count; i++)
                     {
-                        outText = table[i][currentIndexes[i]].Text;
-                        f2.textBox1.Text += outText;
+                        outText += table[i][currentIndexes[i]].Text;
+                        //f2.textBox1.Text += outText;
                         if (i == table.Count - 1)
-                            f2.textBox1.Text += @"
+                            /*f2.textBox1.Text += @"
+";*/
+                            outText += @"
 ";
                         else
-                            f2.textBox1.Text += " ";
+                            //f2.textBox1.Text += " ";
+                            outText += " ";
                     }
+                    f2.textBox1.Text += outText;
+
                     if (currentIndexes[currentBorder] != maxIndexes[currentBorder])
                     {
                         currentIndexes[currentBorder]++;
