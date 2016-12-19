@@ -12,7 +12,7 @@ namespace SPSAU1
 {
     public partial class Form1 : Form
     {
-        List<List<TextBox>> table;
+        public List<List<TextBox>> table;
         List<Button> buttonTable;
 
 
@@ -129,7 +129,7 @@ namespace SPSAU1
             temp.Location = new Point(table[coord.Y][table[coord.Y].Count - 1].Location.X, extraTextBox.Location.Y + (textBox1.Height + 2));
             //temp.Visible = false;
 
-            //MessageBox.Show(temp.Tag.ToString());            
+            //MessageBox.Show(temp.Tag.ToString());
         }
 
         private void AddColumn(object sender, EventArgs e)
@@ -159,6 +159,80 @@ namespace SPSAU1
             adderRow.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             adderRow.Tag = new Point(1, table.Count - 1);
 
+        }
+
+        private void Evaluator()
+        {
+            Form2 f2 = new Form2();
+            f2.Show();
+            int[] maxIndexes = new int[table.Count];
+            int[] currentIndexes = new int[table.Count];
+            int currentBorder = table.Count - 1;
+            string outText;
+            int iter = 0;
+            for (int i = 0; i < maxIndexes.Length; i++)
+            {
+                maxIndexes[i] = table[i].Count - 1;
+                //label2.Text += maxIndexes[i].ToString();
+            }
+
+
+            //---wrong output
+            try
+            {
+                while (true)
+                //while (currentIndexes[0] != maxIndexes[0])
+                {
+                    for (int i = 0; i < table.Count; i++)
+                    {
+                        outText = table[i][currentIndexes[i]].Text;
+                        f2.textBox1.Text += outText;
+                        if (i == table.Count - 1)
+                            f2.textBox1.Text += @"
+";
+                        else
+                            f2.textBox1.Text += " ";
+                    }
+                    if (currentIndexes[currentBorder] != maxIndexes[currentBorder])
+                    {
+                        currentIndexes[currentBorder]++;
+                    }
+                    else
+                    {
+                        currentBorder--;
+                        for (int j = 0; j < table.Count; j++)
+                        {
+                            if (j > currentBorder)
+                                currentIndexes[j] = 0;
+                        }
+                        currentIndexes[currentBorder]++;
+                        //rec
+                        //for (int k = 0; k < table.Count; k++)
+                        for (int k = table.Count - 1; k >= 0; k--)
+                        {
+                            if (currentIndexes[k] > maxIndexes[k])
+                            {
+                                currentIndexes[k] = 0;
+                                currentIndexes[k - 1]++;
+                            }
+                        }
+                        currentBorder = table.Count - 1;
+                    }
+
+                    //iter++;
+                    //if (iter == 200)
+                    //    break;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Evaluator();
         }
     }
 }
