@@ -289,5 +289,28 @@ namespace SPSAU1
         {
             Evaluator();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                for (int j = 0; j < table.Count; j++)
+                {
+                    for (int i = 0; i < table[j].Count; i++)
+                    {
+                        table[j][i].Text = "";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
     }
 }
